@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8b1e1e">
+  <title>Mala Café | Menu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="logo">M</div>
+    <div>
+      <h1>Mala Café</h1>
+      <p id="subtitle">เมนูอาหารและเครื่องดื่ม</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="ค้นหาเมนู..." aria-label="ค้นหาเมนู">
+    </div>
+
+    <div class="language">
+      <button class="lang active" data-lang="th">ไทย</button>
+      <button class="lang" data-lang="lo">ລາວ</button>
+      <button class="lang" data-lang="en">English</button>
+    </div>
+
+    <nav id="categories" class="categories"></nav>
+    <section id="menu" class="menu-grid"></section>
+  </main>
+
+  <footer>
+    <strong>Mala Café</strong>
+    <span>Thank you for visiting ❤️</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
