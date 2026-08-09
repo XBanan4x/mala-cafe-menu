@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mala Cafe · เมนู</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;0,900;1,600;1,700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600;700&family=Noto+Serif+Thai:wght@400;500;600;700&family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#150F0D; --bg-elev:#1E1512; --card:#241A16; --card-hi:#2C201A;
+  --text:#F4E9DC; --text-muted:#A9927F;
+  --red:#C1321F; --red-glow:#E85A2A; --gold:#C9A24B;
+  --line:rgba(244,233,220,.10);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;}
+html,body{height:100%;}
+body{
+  margin:0;overflow:hidden;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(193,50,31,.16), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(201,162,75,.09), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans Thai','Inter',sans-serif;
+  display:flex;flex-direction:column;
+}
+.peppercorns{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.peppercorns span{position:absolute;width:5px;height:5px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--gold), #6b4e14 75%);
+  animation:drift 16s ease-in-out infinite;}
+@keyframes drift{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-16px) rotate(180deg);}}
+
+/* ---------- header ---------- */
+header{
+  position:relative;z-index:20;flex-shrink:0;
+  backdrop-filter:blur(16px) saturate(140%);
+  background:rgba(21,15,13,.72);border-bottom:1px solid var(--line);
+}
+.topbar{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.brand{display:flex;align-items:center;gap:9px;}
+.brand-mark{width:32px;height:32px;border-radius:50%;flex-shrink:0;position:relative;
+  background:conic-gradient(from 200deg,var(--red),var(--red-glow),var(--gold),var(--red));
+  animation:spin 18s linear infinite;}
+.brand-mark::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--bg);}
+.brand-mark.has-logo::after{display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.brand-text{display:flex;flex-direction:column;gap:1px;}
+.brand-name{
+  font-family:'Fraunces',serif;font-weight:700;font-size:19px;line-height:1.1;
+  letter-spacing:-.01em;
+  background:linear-gradient(180deg,#fff 10%, var(--text) 55%, var(--gold) 140%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand-name em{
+  font-style:italic;font-weight:600;
+  background:linear-gradient(120deg,var(--red-glow),var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand-sub{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:.02em;}
+.header-actions{display:flex;align-items:center;gap:8px;}
+.manage-btn{
+  display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);
+  color:var(--text);font-family:inherit;font-weight:600;font-size:12.5px;
+  padding:9px 14px;border-radius:999px;cursor:pointer;transition:all .3s var(--ease);
+}
+.manage-btn:hover{border-color:rgba(201,162,75,.4);background:var(--card-hi);}
+.manage-btn svg{width:15px;height:15px;flex-shrink:0;}
+
+/* ---------- viewer stage ---------- */
+.cat-tabs-wrap{
+  position:relative;z-index:19;flex-shrink:0;
+  background:rgba(21,15,13,.55);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.cat-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 12px;}
+.cat-tab{
+  display:flex;align-items:center;justify-content:center;gap:5px;text-align:center;
+  border:1px solid var(--line);background:var(--card);color:var(--text-muted);
+  font-family:inherit;font-weight:600;font-size:11px;line-height:1.2;padding:8px 5px;border-radius:12px;
+  cursor:pointer;white-space:normal;transition:all .3s var(--ease);
+}
+.cat-tab:hover{border-color:rgba(201,162,75,.4);}
+.cat-tab.active{background:linear-gradient(135deg,var(--red),var(--red-glow));color:#fff;border-color:transparent;}
+.cat-tab-icon{font-size:15px;margin-right:0;}
+
+.stage-wrap{flex:1;position:relative;overflow:hidden;z-index:1;}
+.stage{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  touch-action:none;perspective:1400px;
+}
+.track{display:flex;height:100%;width:100%;will-change:transform;}
+.page{
+  flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center;padding:14px 10px 10px;
+  position:relative;
+}
+.page-inner{
+  position:relative;max-width:100%;max-height:100%;border-radius:14px;overflow:hidden;
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.6);background:var(--bg-elev);border:1px solid var(--line);
+}
+.page-inner img{
+  display:block;max-width:100%;max-height:calc(100vh - 190px);width:auto;height:auto;
+  transition:transform .12s linear;will-change:transform;cursor:grab;
+}
+.page-inner img.grabbing{cursor:grabbing;}
+.page-code{
+  position:absolute;top:10px;left:10px;font-size:10.5px;font-weight:700;letter-spacing:.04em;
+  background:rgba(21,15,13,.6);backdrop-filter:blur(6px);color:var(--gold);
+  border:1px solid rgba(201,162,75,.35);padding:4px 10px;border-radius:999px;
+}
+
+.empty-state{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;text-align:center;padding:30px;z-index:2;
+}
+.empty-icon{
+  width:76px;height:76px;border-radius:22px;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--card),var(--card-hi));border:1px solid var(--line);
+}
+.empty-icon svg{width:34px;height:34px;stroke:var(--gold);}
+.empty-state h2{font-family:'Fraunces',serif;font-size:19px;margin:0;font-weight:700;}
+.empty-state p{color:var(--text-muted);font-size:13.5px;max-width:280px;line-height:1.6;margin:0;}
+.empty-cta{
+  margin-top:6px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--red),var(--red-glow));color:#fff;
+  font-family:inherit;font-weight:700;font-size:13.5px;padding:12px 24px;border-radius:999px;
+  box-shadow:0 14px 30px -12px rgba(193,50,31,.6);transition:transform .25s var(--ease);
+}
+.empty-cta:hover{transform:translateY(-2px);}
+
+.side-nav{
+  position:absolute;top:50%;translate:0 -50%;width:42px;height:42px;border-radius:50%;
+  background:rgba(21,15,13,.5);backdrop-filter:blur(8px);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--text);cursor:pointer;z-index:6;
+  transition:background .3s,opacity .3s;
+}
+.side-nav:hover{background:var(--red);}
+.side-nav.prev{left:10px;} .side-nav.next{right:10px;}
+.side-nav[disabled]{opacity:0;pointer-events:none;}
+
+/* ---------- bottom control bar ---------- */
+.bottombar{
+  position:relative;z-index:20;flex-shrink:0;padding:10px 16px 16px;
+  background:linear-gradient(0deg, rgba(21,15,13,.85), transparent);
+}
+.bb-inner{
+  max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:10px;
+}
+.bb-row{display:flex;align-items:center;gap:10px;}
+.bb-btn{
+  width:38px;height:38px;flex-shrink:0;border-radius:50%;border:1px solid var(--line);
+  background:var(--card);color:var(--text);display:grid;place-items:center;cursor:pointer;
+  transition:all .3s var(--ease);
+}
+.bb-btn:hover{border-color:rgba(201,162,75,.4);background:var(--card-hi);}
+.bb-btn svg{width:16px;height:16px;}
+.counter{
+  font-family:'Fraunces',serif;font-size:12.5px;font-weight:700;color:var(--gold);
+  min-width:52px;text-align:center;flex-shrink:0;
+}
+.scrub{flex:1;position:relative;height:6px;border-radius:999px;background:var(--card);border:1px solid var(--line);}
+.scrub-fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--red),var(--gold));transition:width .25s var(--ease);}
+.scrub input[type=range]{
+  position:absolute;inset:-10px 0;width:100%;height:26px;opacity:0;cursor:pointer;margin:0;
+}
+.zoom-hud{font-size:10.5px;color:var(--text-muted);min-width:36px;text-align:right;flex-shrink:0;}
+
+/* ---------- manage drawer ---------- */
+.overlay{
+  position:fixed;inset:0;background:rgba(10,7,6,.6);backdrop-filter:blur(4px);z-index:40;
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
+}
+.overlay.open{opacity:1;pointer-events:auto;}
+.drawer{
+  position:fixed;right:0;top:0;bottom:0;width:min(360px,88vw);z-index:41;
+  background:var(--bg-elev);border-left:1px solid var(--line);
+  transform:translateX(100%);transition:transform .4s var(--ease);
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:translateX(0);}
+.drawer-head{padding:16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);}
+.drawer-head h3{margin:0;font-family:'Fraunces',serif;font-size:14.5px;font-weight:700;}
+.drawer-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+  color:var(--text);display:grid;place-items:center;cursor:pointer;}
+.drawer-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+
+.upload-cat-row{display:flex;flex-direction:column;gap:7px;}
+.upload-cat-row label{font-size:11px;color:var(--text-muted);font-weight:600;}
+.upload-cat-picker{display:flex;flex-wrap:wrap;gap:8px;}
+.upload-cat-btn{
+  display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);
+  color:var(--text-muted);font-family:inherit;font-weight:600;font-size:12px;
+  padding:8px 12px;border-radius:999px;cursor:pointer;transition:all .3s var(--ease);
+}
+.upload-cat-btn:hover{border-color:rgba(201,162,75,.4);}
+.upload-cat-btn.active{background:linear-gradient(135deg,var(--red),var(--red-glow));color:#fff;border-color:transparent;}
+
+.upload-zone{
+  border:1.5px dashed rgba(201,162,75,.4);border-radius:16px;padding:22px 14px;text-align:center;
+  cursor:pointer;transition:all .3s var(--ease);background:rgba(201,162,75,.04);
+}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--gold);background:rgba(201,162,75,.1);}
+.upload-zone svg{width:26px;height:26px;stroke:var(--gold);margin-bottom:8px;}
+.upload-zone p{margin:0;font-size:12.5px;color:var(--text-muted);}
+.upload-zone b{color:var(--text);}
+#fileInput{display:none;}
+
+.thumb-row{
+  display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:8px;transition:border-color .3s;
+}
+.thumb-row.current{border-color:var(--gold);}
+.thumb-row img{width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0;background:var(--bg);}
+.thumb-meta{flex:1;min-width:0;}
+.thumb-idx{font-size:10.5px;color:var(--gold);font-weight:700;}
+.thumb-name{font-size:11.5px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.thumb-cat-picker{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.thumb-cat-btn{
+  width:24px;height:24px;border-radius:7px;border:1px solid var(--line);background:var(--bg-elev);
+  font-size:12px;display:grid;place-items:center;cursor:pointer;padding:0;opacity:.5;transition:all .2s;
+}
+.thumb-cat-btn.active{opacity:1;border-color:var(--gold);background:rgba(201,162,75,.15);}
+.thumb-actions{display:flex;gap:4px;flex-shrink:0;}
+.ic-btn{
+  width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--bg-elev);
+  color:var(--text-muted);display:grid;place-items:center;cursor:pointer;transition:all .2s;
+}
+.ic-btn:hover{color:var(--text);border-color:rgba(244,233,220,.3);}
+.ic-btn.danger:hover{color:#fff;background:var(--red);border-color:var(--red);}
+.ic-btn svg{width:13px;height:13px;}
+.drawer-empty{color:var(--text-muted);font-size:12.5px;text-align:center;padding:20px 6px;}
+
+/* ---------- grid (thumbnail jump) view ---------- */
+.grid-view{
+  position:fixed;inset:0;z-index:35;background:rgba(10,7,6,.94);backdrop-filter:blur(8px);
+  display:none;flex-direction:column;padding:16px;
+}
+.grid-view.open{display:flex;}
+.grid-view-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.grid-view-head h3{margin:0;font-family:'Fraunces',serif;font-size:15px;}
+.grid-items{
+  flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;
+}
+.grid-item{
+  border-radius:10px;overflow:hidden;border:2px solid transparent;cursor:pointer;position:relative;
+  aspect-ratio:3/4;background:var(--card);transition:border-color .25s;
+}
+.grid-item.active{border-color:var(--gold);}
+.grid-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.grid-item span{
+  position:absolute;bottom:4px;right:5px;font-size:10px;font-weight:700;color:#fff;
+  background:rgba(21,15,13,.7);padding:2px 6px;border-radius:6px;
+}
+
+
+/* ---------- site appearance settings ---------- */
+body{--site-font:'Noto Sans Thai','Inter',sans-serif;}
+.brand-name,.brand-sub,.manage-btn,.cat-tab,.empty-state h2,.empty-state p,.empty-cta,.drawer-head h3,.upload-cat-btn,.upload-zone,.thumb-row,.grid-view-head h3,.bb-btn,.counter,.zoom-hud,.settings-card{font-family:var(--site-font);}
+body.site-bg-image{background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;}
+body.site-bg-image::before{content:"";position:fixed;inset:0;z-index:0;background:var(--site-bg-overlay,rgba(10,7,6,.34));pointer-events:none;}
+body.site-bg-image > *{position:relative;z-index:1;}
+body.site-bg-image header,body.site-bg-image .cat-tabs-wrap{z-index:20;}
+.site-settings-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;padding:11px 14px;border:1px solid rgba(201,162,75,.35);border-radius:12px;background:linear-gradient(135deg,rgba(193,50,31,.15),rgba(201,162,75,.08));color:var(--text);font:600 12.5px inherit;cursor:pointer;}
+.site-settings-btn svg{width:16px;height:16px;}
+.settings-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:14px;}
+.settings-modal.open{display:flex;}
+.settings-card{width:min(680px,100%);max-height:92vh;overflow:auto;background:var(--bg-elev);border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 90px rgba(0,0,0,.55);padding:18px;}
+.settings-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.settings-head h3{margin:0;font-family:'Fraunces',serif;font-size:17px;}
+.settings-close{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;}
+.settings-section{padding:14px 0;border-top:1px solid var(--line);}
+.settings-section:first-of-type{border-top:0;padding-top:0;}
+.settings-section h4{margin:0 0 9px;font-size:12.5px;color:var(--gold);}
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.settings-field{display:flex;flex-direction:column;gap:6px;}
+.settings-field label{font-size:11px;color:var(--text-muted);font-weight:600;}
+.settings-field input[type=color]{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px;}
+.settings-field select,.settings-field input[type=text]{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);padding:0 10px;font:inherit;}
+.theme-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.theme-preset{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px;color:var(--text);cursor:pointer;text-align:left;}
+.theme-preset strong{display:block;font-size:11px;margin-bottom:6px;}
+.theme-dots{display:flex;gap:4px;}.theme-dots i{width:18px;height:18px;border-radius:50%;display:block;border:1px solid rgba(255,255,255,.12);}
+.asset-row{display:grid;grid-template-columns:82px 1fr;gap:10px;align-items:center;}
+.asset-preview{width:82px;height:82px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;overflow:hidden;color:var(--text-muted);font-size:10px;text-align:center;}
+.asset-preview img{width:100%;height:100%;object-fit:cover;display:block;}
+.asset-actions{display:flex;gap:7px;flex-wrap:wrap;}
+.asset-btn,.settings-save{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:9px 12px;font:600 11.5px inherit;cursor:pointer;}
+.settings-save{background:linear-gradient(135deg,var(--red),var(--red-glow));border-color:transparent;color:#fff;padding:11px 18px;}
+.settings-footer{display:flex;justify-content:flex-end;gap:8px;padding-top:14px;border-top:1px solid var(--line);}
+.settings-note{font-size:10.5px;color:var(--text-muted);line-height:1.55;margin-top:8px;}
+@media(max-width:520px){.settings-grid{grid-template-columns:1fr;}.theme-presets{grid-template-columns:repeat(2,1fr);}}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important;}}
+</style>
+</head>
+<body>
+<div class="peppercorns" id="peppercorns"></div>
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <div class="brand-name">Mala Cafe <em>Menu</em></div>
+        <div class="brand-sub">ຍິນດີຕ້ອນຮັບ</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="manage-btn" id="manageBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round"/></svg>
+        จัดการ
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="cat-tabs-wrap" id="catTabsWrap" style="display:none;">
+  <div class="cat-tabs" id="catTabs"></div>
+</div>
+
+<div class="stage-wrap">
+  <div class="stage" id="stage">
+    <div class="track" id="track"></div>
+  </div>
+  <button class="side-nav prev" id="prevBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="side-nav next" id="nextBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
+    </div>
+    <h2>ยังไม่มีหน้าเมนู</h2>
+    <p>อัปโหลดรูปหน้าเมนูที่ทำไว้ (มีรูปอาหาร รหัส และราคาในภาพแล้ว) เพื่อเริ่มดูแบบเลื่อนหน้า</p>
+    <button class="empty-cta" id="emptyUploadBtn">+ เพิ่มรูปเมนู</button>
+  </div>
+
+  <div class="empty-state" id="catEmptyState" style="display:none;">
+    <div class="empty-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
+    </div>
+    <h2>ไม่มีรายการในหมวดนี้</h2>
+    <p>ลองเลือกหมวดหมู่อื่น</p>
+  </div>
+</div>
+
+<div class="bottombar" id="bottombar" style="display:none;">
+  <div class="bb-inner">
+    <div class="bb-row">
+      <button class="bb-btn" id="gridBtn" title="ดูทุกหน้า">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></svg>
+      </button>
+      <div class="counter" id="counter">0/0</div>
+      <div class="scrub" id="scrub">
+        <div class="scrub-fill" id="scrubFill"></div>
+        <input type="range" id="scrubInput" min="0" max="0" value="0" step="1">
+      </div>
+      <div class="zoom-hud" id="zoomHud">100%</div>
+      <button class="bb-btn" id="resetZoomBtn" title="รีเซ็ตซูม">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6M4 4v6M4 4l6 6M20 20h-6M20 20v-6M20 20l-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>จัดการหน้าเมนู</h3>
+    <button class="drawer-close" id="drawerClose">✕</button>
+  </div>
+  <div class="drawer-body">
+    <button class="site-settings-btn" id="siteSettingsBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V20h-2.4v-.2a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 8.46 15a1.7 1.7 0 0 0-1.56-1.03H6v-2.4h.9A1.7 1.7 0 0 0 8.46 10a1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.7-1.7.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 12.73 5.2V5h2.4v.2a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 19.4 10c.25.63.86 1.03 1.56 1.03H21v2.4h-.04A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+      ปรับแต่งหน้าเว็บไซต์
+    </button>
+    <div class="upload-cat-row">
+      <label>หมวดหมู่ที่จะเพิ่ม</label>
+      <div class="upload-cat-picker" id="uploadCatPicker"></div>
+    </div>
+    <div class="upload-zone" id="uploadZone">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+      <p><b>แตะเพื่อเลือกรูป</b><br>อัปโหลดได้ทีละหลายไฟล์ (JPG/PNG)</p>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" multiple>
+    <input type="file" id="replaceInput" accept="image/*">
+    <div id="thumbList"></div>
+  </div>
+</div>
+
+
+<div class="settings-modal" id="settingsModal">
+  <div class="settings-card">
+    <div class="settings-head"><h3>ปรับแต่งหน้าเว็บไซต์</h3><button class="settings-close" id="settingsClose">✕</button></div>
+    <div class="settings-section">
+      <h4>🎨 โทนสีเว็บไซต์</h4>
+      <div class="theme-presets" id="themePresets">
+        <button class="theme-preset" data-theme="original"><strong>Original</strong><span class="theme-dots"><i style="background:#C1321F"></i><i style="background:#C9A24B"></i><i style="background:#150F0D"></i></span></button>
+        <button class="theme-preset" data-theme="green"><strong>ชาเขียว</strong><span class="theme-dots"><i style="background:#2E7D32"></i><i style="background:#A5D6A7"></i><i style="background:#0D1710"></i></span></button>
+        <button class="theme-preset" data-theme="blue"><strong>ทะเล</strong><span class="theme-dots"><i style="background:#1976D2"></i><i style="background:#64B5F6"></i><i style="background:#0B1420"></i></span></button>
+        <button class="theme-preset" data-theme="pink"><strong>เทศกาลชมพู</strong><span class="theme-dots"><i style="background:#D81B60"></i><i style="background:#F48FB1"></i><i style="background:#1B0D13"></i></span></button>
+        <button class="theme-preset" data-theme="purple"><strong>ม่วง</strong><span class="theme-dots"><i style="background:#7E57C2"></i><i style="background:#B39DDB"></i><i style="background:#120E1A"></i></span></button>
+        <button class="theme-preset" data-theme="custom"><strong>กำหนดเอง</strong><span class="theme-dots"><i id="customDot1" style="background:#C1321F"></i><i id="customDot2" style="background:#C9A24B"></i><i id="customDot3" style="background:#150F0D"></i></span></button>
+      </div>
+      <div class="settings-grid" style="margin-top:10px;">
+        <div class="settings-field"><label>สีหลัก</label><input id="settingRed" type="color" value="#C1321F"></div>
+        <div class="settings-field"><label>สีรอง / Accent</label><input id="settingGold" type="color" value="#C9A24B"></div>
+        <div class="settings-field"><label>สีพื้นหลัง</label><input id="settingBg" type="color" value="#150F0D"></div>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h4>🔤 ฟอนต์เว็บไซต์</h4>
+      <div class="settings-field"><label>เลือกฟอนต์</label><select id="settingFont"><option value="Noto Sans Thai">Noto Sans Thai</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Noto Serif Thai">Noto Serif Thai</option><option value="Mali">Mali</option></select></div>
+    </div>
+    <div class="settings-section">
+      <h4>🏪 โลโก้ร้าน</h4>
+      <div class="asset-row"><div class="asset-preview" id="logoPreview">ไม่มีโลโก้</div><div><div class="asset-actions"><button class="asset-btn" id="logoUploadBtn">เลือก/เปลี่ยนรูป</button><button class="asset-btn" id="logoRemoveBtn">ลบโลโก้</button></div><div class="settings-note">ใช้ JPG / PNG / WEBP แนะนำรูปสี่เหลี่ยมจัตุรัส</div></div></div>
+      <input id="logoInput" type="file" accept="image/*" hidden>
+    </div>
+    <div class="settings-section">
+      <h4>🖼️ พื้นหลังเว็บไซต์</h4>
+      <div class="asset-row"><div class="asset-preview" id="bgPreview">ไม่มีพื้นหลัง</div><div><div class="asset-actions"><button class="asset-btn" id="bgUploadBtn">เลือก/เปลี่ยนรูป</button><button class="asset-btn" id="bgRemoveBtn">ใช้พื้นหลังสี</button></div><div class="settings-note">เหมาะสำหรับธีมเทศกาล เช่น ปีใหม่ ตรุษจีน วาเลนไทน์ ฯลฯ</div></div></div>
+      <input id="bgInput" type="file" accept="image/*" hidden>
+    </div>
+    <div class="settings-footer"><button class="asset-btn" id="settingsCancel">ยกเลิก</button><button class="settings-save" id="settingsSave">บันทึกการตั้งค่า</button></div>
+  </div>
+</div>
+
+<div class="grid-view" id="gridView">
+  <div class="grid-view-head">
+    <h3>ทุกหน้าเมนู</h3>
+    <button class="drawer-close" id="gridClose">✕</button>
+  </div>
+  <div class="grid-items" id="gridItems"></div>
+</div>
+
+<script>
+/* ================= Supabase configuration ================= */
+const SUPABASE_URL = "https://zwhvtuumxstnxmmszjom.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Iz5IE2BDx5aSOVp30hpWvQ_p4BLCVDC";
+const SUPABASE_TABLE = "menu_pages";
+const SUPABASE_BUCKET = "menu-images";
+const SETTINGS_TABLE = "site_settings";
+const SETTINGS_ID = "main";
+
+const REST_URL = `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`;
+const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object`;
+
+function sbHeaders(extra = {}) {
+  return {
+    apikey: SUPABASE_KEY,
+    Authorization: `Bearer ${SUPABASE_KEY}`,
+    ...extra
+  };
+}
+
+function publicImageUrl(path) {
+  if (!path) return "";
+  return `${STORAGE_URL}/public/${SUPABASE_BUCKET}/${path
+    .split("/")
+    .map(encodeURIComponent)
+    .join("/")}`;
+}
+
+function storageObjectUrl(path) {
+  return `${STORAGE_URL}/${SUPABASE_BUCKET}/${path
+    .split("/")
+    .map(encodeURIComponent)
+    .join("/")}`;
+}
+
+async function sbJson(url, options = {}) {
+  const res = await fetch(url, {
+    ...options,
+    headers: sbHeaders(options.headers || {})
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Supabase ${res.status}: ${body || res.statusText}`);
+  }
+  if (res.status === 204) return null;
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+async function uploadImage(file) {
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const safeExt = /^[a-z0-9]+$/.test(ext) ? ext : "jpg";
+  const path = `${crypto.randomUUID()}.${safeExt}`;
+
+  const res = await fetch(storageObjectUrl(path), {
+    method: "POST",
+    headers: sbHeaders({
+      "Content-Type": file.type || "application/octet-stream",
+      "x-upsert": "false"
+    }),
+    body: file
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`อัปโหลดรูปไม่สำเร็จ (${res.status}): ${body || res.statusText}`);
+  }
+  return path;
+}
+
+async function deleteImage(path) {
+  if (!path) return;
+  const res = await fetch(storageObjectUrl(path), {
+    method: "DELETE",
+    headers: sbHeaders()
+  });
+  if (!res.ok && res.status !== 404) {
+    const body = await res.text();
+    throw new Error(`ลบรูปไม่สำเร็จ (${res.status}): ${body || res.statusText}`);
+  }
+}
+
+function showError(err, fallback = "เกิดข้อผิดพลาด") {
+  console.error(err);
+  alert(`${fallback}\n\n${err?.message || err}`);
+}
+
+/* ================= state ================= */
+let pages = [];      // [{id, image, image_path, name, category, sort_order}]
+let current = 0;
+let scale = 1, panX = 0, panY = 0;
+let replaceTargetId = null;
+let activeCategory = "all";
+const CATEGORIES = ["ອາຫານຈານຫຼັກ","ອາຫານກິນຫຼິ້ນ","ເຄື່ອງດື່ມ","ນ້ຳປັ່ນ","Alcohol"];
+const CATEGORY_ICONS = {
+  "ອາຫານຈານຫຼັກ":"🍛",
+  "ອາຫານກິນຫຼິ້ນ":"🍢",
+  "ເຄື່ອງດື່ມ":"🥤",
+  "ນ້ຳປັ່ນ":"🧋",
+  "Alcohol":"🍺"
+};
+let uploadCategory = CATEGORIES[0];
+
+/* ================= admin gate ================= */
+const ADMIN_PASSWORD = "xmalacafe2026@";
+let isAdmin = false;
+function requireAdmin(cb){
+  if(isAdmin){ cb(); return; }
+  const pass = prompt("รหัสผ่านแอดมิน:");
+  if(pass === null) return;
+  if(pass === ADMIN_PASSWORD){ isAdmin = true; cb(); }
+  else alert("รหัสผ่านไม่ถูกต้อง");
+}
+
+/* ================= Supabase data ================= */
+async function loadPages(){
+  try {
+    const rows = await sbJson(`${REST_URL}?select=id,image_path,name,category,sort_order,created_at&order=sort_order.asc,created_at.asc`);
+    pages = (rows || []).map(d => ({
+      id: d.id,
+      image_path: d.image_path,
+      image: publicImageUrl(d.image_path),
+      name: d.name || "",
+      category: d.category || CATEGORIES[0],
+      sort_order: Number.isFinite(Number(d.sort_order)) ? Number(d.sort_order) : 0
+    }));
+    current = Math.min(current, Math.max(0, pages.length - 1));
+    renderAll();
+  } catch(err) {
+    showError(err, "โหลดเมนูจาก Supabase ไม่สำเร็จ");
+  }
+}
+
+async function addFiles(fileList){
+  const files = Array.from(fileList).filter(f => f.type.startsWith("image/"));
+  if(files.length === 0) return;
+
+  const category = uploadCategory;
+  let maxOrder = pages.reduce((m,p) => Math.max(m, Number(p.sort_order) || 0), -1);
+
+  try {
+    for(const file of files){
+      let imagePath = null;
+      try {
+        imagePath = await uploadImage(file);
+        const row = {
+          id: crypto.randomUUID(),
+          image_path: imagePath,
+          name: file.name,
+          category,
+          sort_order: ++maxOrder
+        };
+
+        await sbJson(REST_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(row)
+        });
+
+        pages.push({
+          ...row,
+          image: publicImageUrl(imagePath)
+        });
+      } catch(err) {
+        if(imagePath) await deleteImage(imagePath).catch(()=>{});
+        throw err;
+      }
+    }
+
+    activeCategory = category;
+    current = Math.max(0, getView().length - 1);
+    renderAll();
+    closeDrawer();
+  } catch(err) {
+    showError(err, "เพิ่มรูปเมนูไม่สำเร็จ");
+    await loadPages();
+  }
+}
+
+async function deletePage(id){
+  const p = pages.find(pg => pg.id === id);
+  if(!p) return;
+  if(!confirm(`ต้องการลบ "${p.name || "หน้านี้"}" ใช่หรือไม่?`)) return;
+
+  try {
+    await sbJson(`${REST_URL}?id=eq.${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      headers: { "Prefer": "return=minimal" }
+    });
+    await deleteImage(p.image_path).catch(err => console.warn(err));
+    pages = pages.filter(pg => pg.id !== id);
+    current = Math.min(current, Math.max(0, getView().length - 1));
+    renderAll();
+  } catch(err) {
+    showError(err, "ลบเมนูไม่สำเร็จ");
+  }
+}
+
+async function replaceImage(id){
+  replaceTargetId = id;
+  document.getElementById("replaceInput").click();
+}
+
+async function changeCategory(id, category){
+  const p = pages.find(pg => pg.id === id);
+  if(!p) return;
+
+  const oldCategory = p.category;
+  p.category = category;
+  renderAll();
+
+  try {
+    await sbJson(`${REST_URL}?id=eq.${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({ category })
+    });
+  } catch(err) {
+    p.category = oldCategory;
+    renderAll();
+    showError(err, "เปลี่ยนหมวดหมู่ไม่สำเร็จ");
+  }
+}
+
+async function saveOrder(){
+  for(let i=0; i<pages.length; i++){
+    const p = pages[i];
+    const newOrder = i;
+    p.sort_order = newOrder;
+    await sbJson(`${REST_URL}?id=eq.${encodeURIComponent(p.id)}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({ sort_order: newOrder })
+    });
+  }
+}
+
+async function movePage(id, dir){
+  const p = pages.find(pg => pg.id === id);
+  if(!p) return;
+
+  const sameCat = pages.map((pg,i)=>({pg,i})).filter(x=>x.pg.category===p.category);
+  const pos = sameCat.findIndex(x=>x.pg.id===id);
+  const swapPos = pos + dir;
+  if(swapPos < 0 || swapPos >= sameCat.length) return;
+
+  const i = sameCat[pos].i, j = sameCat[swapPos].i;
+  [pages[i], pages[j]] = [pages[j], pages[i]];
+  renderAll();
+
+  try {
+    await saveOrder();
+  } catch(err) {
+    showError(err, "บันทึกลำดับเมนูไม่สำเร็จ");
+    await loadPages();
+  }
+}
+
+/* ================= render ================= */
+const track = document.getElementById("track");
+const stage = document.getElementById("stage");
+const emptyState = document.getElementById("emptyState");
+const catEmptyState = document.getElementById("catEmptyState");
+const catTabsWrap = document.getElementById("catTabsWrap");
+const catTabs = document.getElementById("catTabs");
+const bottombar = document.getElementById("bottombar");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const counter = document.getElementById("counter");
+const scrubFill = document.getElementById("scrubFill");
+const scrubInput = document.getElementById("scrubInput");
+const zoomHud = document.getElementById("zoomHud");
+const thumbList = document.getElementById("thumbList");
+const gridItems = document.getElementById("gridItems");
+
+function getView(){
+  return activeCategory === "all" ? pages : pages.filter(p=>p.category===activeCategory);
+}
+
+function renderAll(){
+  renderCatTabs();
+  const view = getView();
+  const has = view.length > 0;
+  emptyState.style.display = pages.length === 0 ? "flex" : "none";
+  catEmptyState.style.display = (pages.length > 0 && view.length === 0) ? "flex" : "none";
+  bottombar.style.display = has ? "block" : "none";
+  prevBtn.style.display = has ? "grid" : "none";
+  nextBtn.style.display = has ? "grid" : "none";
+  current = view.length ? Math.max(0, Math.min(current, view.length - 1)) : 0;
+
+  track.innerHTML = view.map((p,i)=>`
+    <div class="page" data-i="${i}">
+      <div class="page-inner">
+        <div class="page-code">${p.category}</div>
+        <img src="${p.image}" alt="menu page ${i+1}" draggable="false">
+      </div>
+    </div>`).join("");
+  applyTrackPosition(false);
+  resetZoom();
+  updateControls();
+  renderDrawerList();
+  renderGridItems();
+}
+
+function renderCatTabs(){
+  catTabsWrap.style.display = pages.length ? "block" : "none";
+  const tabs = ["all", ...CATEGORIES];
+  catTabs.innerHTML = tabs.map(c=>`
+    <button class="cat-tab ${activeCategory===c?"active":""}" data-cat="${c}">
+      <span class="cat-tab-icon">${c==="all"?"🍽️":CATEGORY_ICONS[c]}</span>${c==="all"?"ทั้งหมด":c}
+    </button>`).join("");
+  catTabs.querySelectorAll(".cat-tab").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      if(activeCategory===btn.dataset.cat) return;
+      activeCategory = btn.dataset.cat;
+      current = 0;
+      renderAll();
+    });
+  });
+}
+
+function updateControls(){
+  const n = getView().length;
+  counter.textContent = n ? `${current+1}/${n}` : "0/0";
+  scrubInput.max = Math.max(0,n-1);
+  scrubInput.value = current;
+  scrubFill.style.width = n>1 ? (current/(n-1)*100)+"%" : "0%";
+  prevBtn.disabled = current<=0;
+  nextBtn.disabled = current>=n-1;
+}
+
+function applyTrackPosition(animate){
+  track.style.transition = animate ? "transform .5s var(--ease)" : "none";
+  track.style.transform = `translateX(-${current*100}%)`;
+}
+
+function goTo(i, animate=true){
+  const n = getView().length;
+  if(n===0) return;
+  current = Math.max(0, Math.min(n-1, i));
+  applyTrackPosition(animate);
+  resetZoom();
+  updateControls();
+  renderDrawerList();
+  renderGridItems();
+}
+
+/* ---------- drawer list ---------- */
+function renderDrawerList(){
+  if(pages.length===0){
+    thumbList.innerHTML = `<div class="drawer-empty">ยังไม่มีรูปเมนู เริ่มอัปโหลดด้านบนได้เลย</div>`;
+    return;
+  }
+  const view = getView();
+  thumbList.innerHTML = pages.map((p,i)=>`
+    <div class="thumb-row ${p.id===view[current]?.id?"current":""}">
+      <img src="${p.image}" alt="">
+      <div class="thumb-meta">
+        <div class="thumb-idx">หน้า ${i+1}</div>
+        <div class="thumb-name">${p.name||""}</div>
+        <div class="thumb-cat-picker">
+          ${CATEGORIES.map(c=>`<button type="button" class="thumb-cat-btn ${p.category===c?"active":""}" data-id="${p.id}" data-cat="${c}" title="${c}">${CATEGORY_ICONS[c]}</button>`).join("")}
+        </div>
+      </div>
+      <div class="thumb-actions">
+        <button class="ic-btn" data-act="edit" data-id="${p.id}" title="แก้ไข/เปลี่ยนรูป">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="ic-btn" data-act="up" data-id="${p.id}" title="เลื่อนขึ้น">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 15l-6-6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="ic-btn" data-act="down" data-id="${p.id}" title="เลื่อนลง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="ic-btn danger" data-act="del" data-id="${p.id}" title="ลบ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>`).join("");
+
+  thumbList.querySelectorAll(".ic-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const id = btn.dataset.id, act = btn.dataset.act;
+      if(act==="up") movePage(id,-1);
+      else if(act==="down") movePage(id,1);
+      else if(act==="edit") replaceImage(id);
+      else if(act==="del") deletePage(id);
+    });
+  });
+
+  thumbList.querySelectorAll(".thumb-cat-btn").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      e.stopPropagation();
+      changeCategory(btn.dataset.id, btn.dataset.cat);
+    });
+  });
+
+  thumbList.querySelectorAll(".thumb-row").forEach((row,i)=>{
+    row.addEventListener("click", e=>{
+      if(e.target.closest(".ic-btn") || e.target.closest(".thumb-cat-picker")) return;
+      const selectedId = pages[i]?.id;
+      const viewIndex = getView().findIndex(p=>p.id===selectedId);
+      if(viewIndex >= 0) {
+        current = viewIndex;
+        renderAll();
+        goTo(viewIndex, false);
+      }
+    });
+  });
+}
+
+/* ---------- grid jump view ---------- */
+function renderGridItems(){
+  const view = getView();
+  gridItems.innerHTML = view.map((p,i)=>`
+    <div class="grid-item ${i===current?"active":""}" data-i="${i}">
+      <img src="${p.image}" alt="">
+      <span>${i+1}</span>
+    </div>`).join("");
+  gridItems.querySelectorAll(".grid-item").forEach(el=>{
+    el.addEventListener("click", ()=>{ goTo(+el.dataset.i); closeGrid(); });
+  });
+}
+
+/* ================= zoom + pan ================= */
+function resetZoom(){
+  scale=1; panX=0; panY=0; zoomHud.textContent="100%";
+  document.querySelectorAll(".page-inner img").forEach(img=> img.style.transform="");
+}
+function applyZoom(){
+  const img = track.children[current]?.querySelector("img");
+  if(img) img.style.transform = `scale(${scale}) translate(${panX}px,${panY}px)`;
+  zoomHud.textContent = Math.round(scale*100)+"%";
+}
+document.getElementById("resetZoomBtn").addEventListener("click", resetZoom);
+
+stage.addEventListener("wheel", e=>{
+  if(getView().length===0) return;
+  e.preventDefault();
+  scale = Math.min(3.5, Math.max(1, scale - e.deltaY*0.0016));
+  applyZoom();
+},{passive:false});
+
+const pointers = new Map();
+let dragStartX=0, dragStartY=0, baseX=0, baseY=0, dragging=false, pinchStartDist=0, pinchStartScale=1;
+
+stage.addEventListener("pointerdown", e=>{
+  if(getView().length===0) return;
+  stage.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
+  if(pointers.size===1){
+    dragging=true; dragStartX=e.clientX; dragStartY=e.clientY; baseX=panX; baseY=panY;
+    const img = track.children[current]?.querySelector("img");
+    if(img) img.classList.add("grabbing");
+  } else if(pointers.size===2){
+    const pts=[...pointers.values()];
+    pinchStartDist = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y);
+    pinchStartScale = scale;
+  }
+});
+
+stage.addEventListener("pointermove", e=>{
+  if(!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
+  if(pointers.size===2){
+    const pts=[...pointers.values()];
+    const dist = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y);
+    scale = Math.min(3.5, Math.max(1, pinchStartScale * (dist/pinchStartDist)));
+    applyZoom();
+    return;
+  }
+  if(!dragging) return;
+  const dx = e.clientX-dragStartX, dy = e.clientY-dragStartY;
+  if(scale>1.02){
+    panX = baseX + dx/scale; panY = baseY + dy/scale; applyZoom();
+  } else {
+    track.style.transition="none";
+    track.style.transform = `translateX(calc(-${current*100}% + ${dx}px))`;
+  }
+});
+
+function endDrag(e){
+  if(pointers.has(e.pointerId)) pointers.delete(e.pointerId);
+  if(pointers.size===0){
+    if(dragging && scale<=1.02){
+      const dx = e.clientX-dragStartX;
+      if(Math.abs(dx) > stage.clientWidth*0.15) goTo(current + (dx<0?1:-1));
+      else applyTrackPosition(true);
+    }
+    dragging=false;
+    const img = track.children[current]?.querySelector("img");
+    if(img) img.classList.remove("grabbing");
+  }
+}
+stage.addEventListener("pointerup", endDrag);
+stage.addEventListener("pointercancel", endDrag);
+stage.addEventListener("dblclick", ()=>{
+  if(getView().length===0) return;
+  scale = scale>1 ? 1 : 2.2;
+  applyZoom();
+});
+
+/* ================= nav controls ================= */
+prevBtn.addEventListener("click", ()=> goTo(current-1));
+nextBtn.addEventListener("click", ()=> goTo(current+1));
+scrubInput.addEventListener("input", ()=> goTo(+scrubInput.value));
+document.addEventListener("keydown", e=>{
+  if(document.getElementById("gridView").classList.contains("open")){
+    if(e.key==="Escape") closeGrid();
+    return;
+  }
+  if(e.key==="ArrowRight") goTo(current+1);
+  if(e.key==="ArrowLeft") goTo(current-1);
+  if(e.key==="Escape") closeDrawer();
+});
+
+/* ================= drawer open/close ================= */
+const overlay = document.getElementById("overlay");
+const drawer = document.getElementById("drawer");
+function openDrawer(){ overlay.classList.add("open"); drawer.classList.add("open"); }
+function closeDrawer(){ overlay.classList.remove("open"); drawer.classList.remove("open"); }
+document.getElementById("manageBtn").addEventListener("click", ()=> requireAdmin(openDrawer));
+document.getElementById("drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+
+/* ================= grid view open/close ================= */
+const gridView = document.getElementById("gridView");
+function openGrid(){ renderGridItems(); gridView.classList.add("open"); }
+function closeGrid(){ gridView.classList.remove("open"); }
+document.getElementById("gridBtn").addEventListener("click", openGrid);
+document.getElementById("gridClose").addEventListener("click", closeGrid);
+
+/* ================= upload ================= */
+const fileInput = document.getElementById("fileInput");
+const uploadZone = document.getElementById("uploadZone");
+uploadZone.addEventListener("click", ()=> fileInput.click());
+document.getElementById("emptyUploadBtn").addEventListener("click", ()=> requireAdmin(()=> fileInput.click()));
+fileInput.addEventListener("change", e=>{
+  if(e.target.files && e.target.files.length) addFiles(e.target.files);
+  fileInput.value="";
+});
+
+const replaceInput = document.getElementById("replaceInput");
+replaceInput.addEventListener("change", async e=>{
+  const file = e.target.files[0];
+  if(file && replaceTargetId){
+    const p = pages.find(pg=>pg.id===replaceTargetId);
+    if(!p) return;
+
+    let newPath = null;
+    try{
+      newPath = await uploadImage(file);
+
+      await sbJson(`${REST_URL}?id=eq.${encodeURIComponent(p.id)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+          image_path: newPath,
+          name: file.name
+        })
+      });
+
+      const oldPath = p.image_path;
+      p.image_path = newPath;
+      p.image = publicImageUrl(newPath);
+      p.name = file.name;
+      renderAll();
+
+      if(oldPath) await deleteImage(oldPath).catch(err=>console.warn("ลบรูปเก่าไม่สำเร็จ:", err));
+    }catch(err){
+      if(newPath) await deleteImage(newPath).catch(()=>{});
+      showError(err, "เปลี่ยนรูปไม่สำเร็จ");
+    }
+  }
+  replaceTargetId = null;
+  replaceInput.value="";
+});
+
+["dragover","dragenter"].forEach(ev=> uploadZone.addEventListener(ev, e=>{
+  e.preventDefault();
+  uploadZone.classList.add("drag");
+}));
+["dragleave","drop"].forEach(ev=> uploadZone.addEventListener(ev, e=>{
+  e.preventDefault();
+  uploadZone.classList.remove("drag");
+}));
+uploadZone.addEventListener("drop", e=>{
+  if(e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+});
+
+
+/* ================= site appearance settings ================= */
+const SETTINGS_DEFAULTS = {
+  theme:"original", red:"#C1321F", gold:"#C9A24B", bg:"#150F0D", font:"Noto Sans Thai", logo_path:"", background_path:""
+};
+let siteSettings = {...SETTINGS_DEFAULTS};
+const THEME_PRESETS = {
+  original:{red:"#C1321F",gold:"#C9A24B",bg:"#150F0D"},
+  green:{red:"#2E7D32",gold:"#A5D6A7",bg:"#0D1710"},
+  blue:{red:"#1976D2",gold:"#64B5F6",bg:"#0B1420"},
+  pink:{red:"#D81B60",gold:"#F48FB1",bg:"#1B0D13"},
+  purple:{red:"#7E57C2",gold:"#B39DDB",bg:"#120E1A"}
+};
+function hexToRgba(hex,a){
+  const h=hex.replace('#',''); const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16); return `rgba(${r},${g},${b},${a})`;
+}
+function applySiteSettings(s){
+  siteSettings={...SETTINGS_DEFAULTS,...s};
+  const root=document.documentElement;
+  root.style.setProperty('--red',siteSettings.red); root.style.setProperty('--red-glow',siteSettings.red); root.style.setProperty('--gold',siteSettings.gold); root.style.setProperty('--bg',siteSettings.bg);
+  root.style.setProperty('--bg-elev',siteSettings.bg); root.style.setProperty('--card',siteSettings.bg); root.style.setProperty('--card-hi',siteSettings.bg);
+  document.body.style.fontFamily=`'${siteSettings.font}','Noto Sans Thai','Inter',sans-serif`;
+  document.body.style.setProperty('--site-font',`'${siteSettings.font}','Noto Sans Thai','Inter',sans-serif`);
+  document.body.classList.toggle('site-bg-image',!!siteSettings.background_path);
+  if(siteSettings.background_path){document.body.style.backgroundImage=`url("${publicImageUrl(siteSettings.background_path)}")`;document.body.style.setProperty('--site-bg-overlay','rgba(10,7,6,.38)');}
+  else {document.body.style.backgroundImage='';}
+  const mark=document.querySelector('.brand-mark');
+  if(mark){mark.style.backgroundImage=siteSettings.logo_path?`url("${publicImageUrl(siteSettings.logo_path)}")`:'';mark.style.backgroundSize='cover';mark.style.backgroundPosition='center';mark.classList.toggle('has-logo',!!siteSettings.logo_path);}
+}
+async function loadSiteSettings(){
+  try{
+    const rows=await sbJson(`${SUPABASE_URL}/rest/v1/${SETTINGS_TABLE}?id=eq.${encodeURIComponent(SETTINGS_ID)}&select=*`);
+    if(rows?.[0]) applySiteSettings(rows[0]); else applySiteSettings(SETTINGS_DEFAULTS);
+  }catch(err){ console.warn('โหลดการตั้งค่าเว็บไซต์ไม่สำเร็จ:',err); applySiteSettings(SETTINGS_DEFAULTS); }
+}
+async function saveSiteSettings(){
+  const url=`${SUPABASE_URL}/rest/v1/${SETTINGS_TABLE}`;
+  const payload={...siteSettings,id:SETTINGS_ID,updated_at:new Date().toISOString()};
+  try{
+    const existing=await sbJson(`${url}?id=eq.${encodeURIComponent(SETTINGS_ID)}&select=id`);
+    if(existing?.length){await sbJson(`${url}?id=eq.${encodeURIComponent(SETTINGS_ID)}`,{method:'PATCH',headers:{'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(payload)});}
+    else {await sbJson(url,{method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(payload)});}
+    applySiteSettings(payload); alert('บันทึกการตั้งค่าเว็บไซต์เรียบร้อยแล้ว');
+  }catch(err){showError(err,'บันทึกการตั้งค่าเว็บไซต์ไม่สำเร็จ');}
+}
+async function uploadSiteAsset(file){
+  const ext=(file.name.split('.').pop()||'jpg').toLowerCase(); const safe=/^[a-z0-9]+$/.test(ext)?ext:'jpg';
+  const path=`site-assets/${crypto.randomUUID()}.${safe}`;
+  const res=await fetch(storageObjectUrl(path),{method:'POST',headers:sbHeaders({'Content-Type':file.type||'application/octet-stream','x-upsert':'false'}),body:file});
+  if(!res.ok) throw new Error(`อัปโหลดไฟล์ไม่สำเร็จ (${res.status}): ${await res.text()}`); return path;
+}
+function updateAssetPreviews(){
+  const lp=document.getElementById('logoPreview'),bp=document.getElementById('bgPreview');
+  lp.innerHTML=siteSettings.logo_path?`<img src="${publicImageUrl(siteSettings.logo_path)}" alt="logo">`:'ไม่มีโลโก้';
+  bp.innerHTML=siteSettings.background_path?`<img src="${publicImageUrl(siteSettings.background_path)}" alt="background">`:'ไม่มีพื้นหลัง';
+}
+function openSiteSettings(){
+  requireAdmin(()=>{document.getElementById('settingsModal').classList.add('open');
+    document.getElementById('settingRed').value=siteSettings.red;document.getElementById('settingGold').value=siteSettings.gold;document.getElementById('settingBg').value=siteSettings.bg;document.getElementById('settingFont').value=siteSettings.font;updateAssetPreviews();
+  });
+}
+function closeSiteSettings(){document.getElementById('settingsModal').classList.remove('open');}
+document.getElementById('siteSettingsBtn').addEventListener('click',openSiteSettings);
+document.getElementById('settingsClose').addEventListener('click',closeSiteSettings);
+document.getElementById('settingsCancel').addEventListener('click',closeSiteSettings);
+document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target.id==='settingsModal')closeSiteSettings();});
+document.querySelectorAll('.theme-preset').forEach(btn=>btn.addEventListener('click',()=>{
+  const t=btn.dataset.theme; if(t==='custom') return; const p=THEME_PRESETS[t]; document.getElementById('settingRed').value=p.red;document.getElementById('settingGold').value=p.gold;document.getElementById('settingBg').value=p.bg;
+}));
+document.getElementById('settingRed').addEventListener('input',e=>document.getElementById('customDot1').style.background=e.target.value);
+document.getElementById('settingGold').addEventListener('input',e=>document.getElementById('customDot2').style.background=e.target.value);
+document.getElementById('settingBg').addEventListener('input',e=>document.getElementById('customDot3').style.background=e.target.value);
+document.getElementById('logoUploadBtn').addEventListener('click',()=>document.getElementById('logoInput').click());
+document.getElementById('bgUploadBtn').addEventListener('click',()=>document.getElementById('bgInput').click());
+document.getElementById('logoInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{siteSettings.logo_path=await uploadSiteAsset(f);updateAssetPreviews();applySiteSettings(siteSettings);}catch(err){showError(err,'อัปโหลดโลโก้ไม่สำเร็จ');}e.target.value='';});
+document.getElementById('bgInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{siteSettings.background_path=await uploadSiteAsset(f);updateAssetPreviews();applySiteSettings(siteSettings);}catch(err){showError(err,'อัปโหลดพื้นหลังไม่สำเร็จ');}e.target.value='';});
+document.getElementById('logoRemoveBtn').addEventListener('click',()=>{siteSettings.logo_path='';updateAssetPreviews();applySiteSettings(siteSettings);});
+document.getElementById('bgRemoveBtn').addEventListener('click',()=>{siteSettings.background_path='';updateAssetPreviews();applySiteSettings(siteSettings);});
+document.getElementById('settingsSave').addEventListener('click',async()=>{siteSettings.red=document.getElementById('settingRed').value;siteSettings.gold=document.getElementById('settingGold').value;siteSettings.bg=document.getElementById('settingBg').value;siteSettings.font=document.getElementById('settingFont').value;siteSettings.theme='custom';await saveSiteSettings();});
+
+/* ================= ambient peppercorns ================= */
+const pepWrap = document.getElementById("peppercorns");
+for(let i=0;i<20;i++){
+  const s=document.createElement("span");
+  s.style.left=Math.random()*100+"%";
+  s.style.top=Math.random()*100+"%";
+  s.style.animationDelay=(Math.random()*10)+"s";
+  s.style.animationDuration=(12+Math.random()*10)+"s";
+  s.style.opacity=(0.12+Math.random()*0.28).toFixed(2);
+  pepWrap.appendChild(s);
+}
+
+/* ================= upload category picker ================= */
+function renderUploadCatPicker(){
+  const picker = document.getElementById("uploadCatPicker");
+  picker.innerHTML = CATEGORIES.map(c=>`
+    <button type="button" class="upload-cat-btn ${uploadCategory===c?"active":""}" data-cat="${c}">
+      <span class="cat-tab-icon">${CATEGORY_ICONS[c]}</span>${c}
+    </button>`).join("");
+  picker.querySelectorAll(".upload-cat-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      uploadCategory = btn.dataset.cat;
+      picker.querySelectorAll(".upload-cat-btn").forEach(b=> b.classList.toggle("active", b.dataset.cat===uploadCategory));
+    });
+  });
+}
+renderUploadCatPicker();
+
+/* ================= init ================= */
+loadSiteSettings();
+loadPages();
+</script>
+</body>
+</html>
